@@ -9,24 +9,22 @@ class cuenta:
     else:
      self.saldo=self.saldo-retiro
   def transferir(self, transferencia, otra_cuenta):
-    tasa=(transferencia)*(4/1000)
+    tasa=transferencia*0.004
     total=transferencia+tasa
-    if transferencia> self.saldo:
-     print("saldo insuficiente")       
+    if total> self.saldo:
+        if otra_cuenta.saldo > tasa:
+            self.saldo = 0
+            otra_cuenta.saldo -= tasa
+            cuenta_actual.saldo -=transferencia
+        else:
+         print("saldo insuficiente")
     elif transferencia == self.saldo:
         if otra_cuenta.saldo < tasa:
             print("La otra cuenta no tiene saldo para pagar la comisión")
         else:
             self.saldo = 0
+            cuenta_actual.saldo = 0
             otra_cuenta.saldo -= tasa
-    elif transferencia+tasa > self.saldo:
-        if otra_cuenta.saldo < tasa:
-            print("La otra cuenta no tiene saldo para pagar la comisión")
-        else:
-            self.saldo -= transferencia
-            otra_cuenta.saldo -= tasa
-    elif transferencia < 0:
-        print("no puede transferir cantidades negativas")
     else:
      self.saldo -= total
 
@@ -51,9 +49,9 @@ try:
 except:
    print("no puede ingresar letras, solo numeros")
 ent2=""
-while ent2!="6":
+while ent2!="5":
      try:
-        ent2=(input("Que desea hacer:\n1.Depositar\n2.Retirar\n3.transferir\n4.consultar saldo\n5. cambiar de cuenta\n6. salir\n"))
+        ent2=(input("Que desea hacer:\n1.Depositar\n2.Retirar\n3.transferir\n4.consultar saldo\n5. salir\n"))
         if ent2 =="1":
                 deposito=float(input("ingrese la cantidad que va a depositar: "))
                 cuenta_actual.depositar(deposito)
@@ -69,18 +67,7 @@ while ent2!="6":
         elif ent2=="4":
             print(f"su saldo actual de ahorro es de: {cuenta_actual.saldo}, corriente: {otra_cuenta.saldo}")
         elif ent2=="5":
-            if cuenta_actual == ahorro:
-                cuenta_actual = corriente
-                otra_cuenta = ahorro
-                print("cambio a cuenta corriente")
-            else:
-                cuenta_actual = ahorro
-                otra_cuenta = corriente
-                print("cambio a cuenta de ahorro")
-        elif ent2=="6":
             print("saliendo")
      except:
         print("no puede ingresar letras, solo numeros")
 
-
-  
